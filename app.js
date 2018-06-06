@@ -112,6 +112,21 @@ app.post('/doAdd', function (req, res) {
 
 })
 
+// product-edit 
+app.post('/doProductEdit', function (req, res) {
+//    编辑product的相关操作
+    var form = new multiparty.Form(); // form 实例
+    form.uploadDir = 'upload'; // 上传图片保存的地址
+    form.parse(req, function (err, fields, files) {
+        var title = fields.title[0];
+        var price = fields.price[0];
+        var fee = fields.fee[0];
+        var description = fields.description[0];
+        var pic = files.pic[0].path;
+
+    });
+})
+
 // product-delete route
 app.get('/productdelete', function (req, res) {
     Db.deleteOne('productmanage', 'product', {title: 'iphone5'}, function (err, data) {
@@ -128,9 +143,12 @@ app.post('/doLogin', function (req, res) {
     console.log(req.body);  // 获取注册的内容
     // 连接mongodb
     var form = new multiparty.Form(); // form 实例
-    form.parse(req,function (err,fields,files) {
+    form.parse(req, function (err, fields, files) {
         // 得到表单信息 查询
-        Db.find('productmanage', 'user', {"username": fields.username[0], "password": md5(fields.password[0])}, function (err, data) {
+        Db.find('productmanage', 'user', {
+            "username": fields.username[0],
+            "password": md5(fields.password[0])
+        }, function (err, data) {
             if (err) {
                 console.log(err);
                 return false;
