@@ -1,9 +1,9 @@
-<%- include public/head.ejs %>
+<%- include ../public/head.ejs %>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2">
-            <%- include public/aslide.ejs %>
+            <%- include ../public/aslide.ejs %>
         </div>
         <div class="col-sm-10">
             <ol class="breadcrumb">
@@ -48,11 +48,11 @@
                     <% for(var i=0;i<table_data.length;i++) {%>
                     <tr>
                         <td><%=i+1%></td>
-                        <td><img width="20" src="<%=table_data[i].pic%>" alt=""></td>
+                        <td><img width="20" src="/<%=table_data[i].pic%>" alt=""></td>
                         <td><%=table_data[i].title%></td>
                         <td><%=table_data[i].price%></td>
                         <td><%=table_data[i].fee%></td>
-                        <td class="text-center"><a href="/productedit?id=<%=table_data[i]._id%>" class="btn btn-default">修改</a> <a class="btn btn-danger" href="/productdelete?id=<%=table_data[i]._id%>">删除</a> </td>
+                        <td class="text-center"><a href="/admin/product/edit?id=<%=table_data[i]._id%>" class="btn btn-default">修改</a> <a class="btn btn-danger" href="/admin/product/delete?id=<%=table_data[i]._id%>">删除</a> </td>
                     </tr>
                     <%}%>
                     </tbody>
