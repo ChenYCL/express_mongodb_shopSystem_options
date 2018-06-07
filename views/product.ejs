@@ -52,7 +52,7 @@
                         <td><%=table_data[i].title%></td>
                         <td><%=table_data[i].price%></td>
                         <td><%=table_data[i].fee%></td>
-                        <td class="text-center"><a href="/productedit?id=<%=table_data[i]._id%>" class="btn btn-default">修改</a> <a class="btn btn-danger" href="/productdelete">删除</a> </td>
+                        <td class="text-center"><a href="/productedit?id=<%=table_data[i]._id%>" class="btn btn-default">修改</a> <a class="btn btn-danger" href="/productdelete?id=<%=table_data[i]._id%>">删除</a> </td>
                     </tr>
                     <%}%>
                     </tbody>

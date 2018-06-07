@@ -2,6 +2,7 @@ var express = require('express');
 
 var md5 = require('md5-node');
 var app = new express();
+var fs = require('fs');
 // 数据库 操作模块
 var Db = require('./modules/db.js');
 var session = require('express-session'); // 引入seesion 服务器生成key-value 并返回key给前台
@@ -118,24 +119,54 @@ app.post('/doProductEdit', function (req, res) {
     var form = new multiparty.Form(); // form 实例
     form.uploadDir = 'upload'; // 上传图片保存的地址
     form.parse(req, function (err, fields, files) {
+        var _id = fields._id[0];
         var title = fields.title[0];
         var price = fields.price[0];
         var fee = fields.fee[0];
         var description = fields.description[0];
         var pic = files.pic[0].path;
 
+        var originalFilename = files.pic[0].originalFilename;
+        if(originalFilename){
+           var setData = {
+               title,
+               price,
+               fee,
+               description,
+               pic
+           }
+        }else {
+            var setData = {
+                title,
+                price,
+                fee,
+                description
+            }
+            fs.unlink(pic,function (err) {
+                if(err){
+                    console.log('错误\n',err)
+                }
+            });
+        }
+
+        console.log(_id);
+        Db.update('productmanage','product',{"_id": new Db.ObjectId(_id)},setData,function (err,data) {
+            if(!err){
+                res.redirect('/product');
+            }
+        })
+
     });
 })
 
 // product-delete route
 app.get('/productdelete', function (req, res) {
-    Db.deleteOne('productmanage', 'product', {title: 'iphone5'}, function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('删除数据成功')
-        }
-    });
+        console.log( {"_id": new Db.ObjectId(req.query.id)});
+        Db.deleteOne('productmanage', 'product', {"_id": new Db.ObjectId(req.query.id)}, function (err, data) {
+            res.redirect('/product');
+        });
+
+
 })
 
 // 获取登陆提交的数据

@@ -67,7 +67,7 @@ exports.update = function (schemaname, collectionname, json1, json2, callback) {
             console.log(err);
             return false;
         }
-        client.db(schemaname).collection(collectionname).updateOne(json1, {$set: {json2}}, function (error, data) {
+        client.db(schemaname).collection(collectionname).updateOne(json1, {$set: json2}, function (error, data) {
             callback(error, data);
         })
 
